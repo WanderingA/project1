@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" href="/static/css/login.css">
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon"/>
+</head>
+<body>
+<div class="content">
+    <div class="login-wrapper">
+        <div class="left-img">
+            <div class="glass">
+                <div class="tips">
+                    <div class="title">
+                        THE SPACE NETWORK
+                    </div>
+                    <h1>Explore The Universe</h1>
+                    <span>5 Million+ people have joined our network.</span>
+                    <span>We invite you to join the tribe</span>
+                </div>
+            </div>
+        </div>
+        <div class="right-login-form">
+            <form class="form-wrapper" onsubmit="login(event)">
+                <h1>Log in</h1>
+                <div class="input-items">
+                    <span class="input-tips">Username</span>
+                    <input type="text" id="username" class="inputs" placeholder="Enter your username">
+                </div>
+                <div class="input-items">
+                    <span class="input-tips">Password</span>
+                    <input type="password" id="password" class="inputs" placeholder="Enter password">
+                </div>
+                <button type="submit" class="btn">Log in</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+async function login(event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    // console.log('username:', username, 'password:', password);
+    const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: username, password: password })
+    });
+    if (response.redirected) {
+        // 如果响应被重定向，则跟随重定向
+        window.location.href = response.url;
+    } else if (response.ok) {
+        const data = await response.json();
+        console.log('登录成功：', data);
+    } else {
+        // 显示错误消息
+        const errorData = await response.json();
+        console.log('登录失败: ', errorData);
+    }
+}
+</script>
+
+</body>
+</html>

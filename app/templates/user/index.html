@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>首页界面</title>
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/js/bstable/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=WZ0A9ap4bojUPbNWBsGHcClAqwy8n242"></script>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon"/>
+</head>
+<body>
+<!--顶部-->
+<header class="header left">
+    <div class="left nav">
+        <ul>
+            <li class="nav_active"><i class="nav_1"></i><a href="/user/index">数据概览</a></li>
+            <li><i class="nav_5"></i><a href="/user/node-control">节点设置</a></li>
+        </ul>
+    </div>
+    <div class="header_center left">
+        <h2><strong>智能监控平台</strong></h2>
+        <p class="color_font"><small>Intelligent Monitoring Platform</small></p>
+    </div>
+    <div class="right nav text_right">
+        <ul>
+            <li><i class="nav_3"></i><a href="/user/map">地图界面</a></li>
+        </ul>
+    </div>
+</header>
+
+<!--内容部分-->
+<div class="con left">
+    <!--选择时间-->
+    <div class="select_time">
+        <div class="static_top left">
+            <i></i><span>总体概况</span>
+        </div>
+    </div>
+    <!--数据总概-->
+    <div class="con_div">
+        <div class="con_div_text left">
+
+            <div class="con_div_text01 left">
+                <img src="/static/img/info_1.png" class="left text01_img">
+                <div class="left text01_div">
+                    <p>接入节点</p>
+                    <p>{{node_number.total_nodes}}</p>
+                </div>
+            </div>
+            <div class="con_div_text01 right">
+                <img src="/static/img/info_1.png" class="left text01_img">
+                <div class="left text01_div">
+                    <p>正常运行</p>
+                    <p>{{node_number.normal_nodes}}</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="con_div_text left">
+            <div class="con_div_text01 left">
+                <img src="/static/img/info_4.png" class="left text01_img">
+                <div class="left text01_div">
+                    <p>覆盖面积</p>
+                    <p class="sky">12356</p>
+                </div>
+            </div>
+            <div class="con_div_text01 right">
+                <img src="/static/img/info_5.png" class="left text01_img">
+                <div class="left text01_div">
+                    <p>有效面积</p>
+                    <p class="sky">12356</p>
+                </div>
+            </div>
+        </div>
+        <div class="con_div_text left">
+
+            <div class="con_time left">
+                <img src="/static/img/info_6.png" class="left text01_img">
+                <div class="left time_div">
+                    <p id="time"></p>
+                    <script>
+                        function getTime(){
+                            var data = new Date();
+                            var year = data.getFullYear();
+                            var month = data.getMonth()+1;
+                            var day = data.getDate();
+                            var hour = data.getHours();
+                            hour = hour<10?"0"+hour:hour;
+                            var minute = data.getMinutes();
+                            minute = minute<10?"0"+minute:minute;
+                            var second = data.getSeconds();
+                            second = second<10?"0"+second:second;
+                            return year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second;
+                        }
+                        setInterval(function(){
+                            document.getElementById("time").innerHTML = getTime();
+                        },1000);
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--统计分析图-->
+    <div class="div_any">
+        <div class="left div_any01">
+            <div class="div_any_child">
+                <div class="div_any_title"><img src="/static/img/title_1.png">事件类型统计 </div>
+                <p id="char1" class="p_chart chart_container" data-chart-data="{{ chart_data }}"></p>
+            </div>
+            <div class="div_any_child">
+                <div class="div_any_title"><img src="/static/img/title_2.png" >节点状态统计 </div>
+                <p id="char2" class="p_chart right" node_status="{{ status }}"></p>
+            </div>
+        </div>
+        <div class="div_any02 left ">
+            <div class="div_map_child">
+                <div class="div_any_title any_title_width"><img src="/static/img/title_3.png">地图 </div>
+                <div id="map_div"></div>
+
+            </div>
+        </div>
+        <div class="right div_any01">
+            <div class="div_any_child03">
+                <div class="div_any_title"><img src="/static/img/title_4.png">硬件设备展示 </div>
+                <div class="button-container">
+                    <div class="btn btn-primary my_bb1" id="button1" onmouseover="showImageAndText(1)" onmouseout="hideImageAndText(1)">无线节点地震仪</div>
+                    <div class="btn btn-primary my_bb1" id="button2" onmouseover="showImageAndText(2)" onmouseout="hideImageAndText(2)">充电箱</div>
+                    <div class="btn btn-primary my_bb1" id="button3" onmouseover="showImageAndText(3)" onmouseout="hideImageAndText(3)">无线模块</div>
+                    <div class="btn btn-primary my_bb1" id="button4" onmouseover="showImageAndText(4)" onmouseout="hideImageAndText(4)">应用现场</div>
+                </div>
+                <div id="imageAndTextContainer">
+                    <!-- 这里将显示图片和介绍 -->
+                </div>
+            </div>
+            <div class="div_any_child">
+                <div class="div_any_title"><img src="/static/img/title_5.png">报警数量统计 </div>
+                <p id="char3" class="p_chart chart_container"></p>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<script src="../static/js/jquery/jQuery-2.2.0.min.js"></script>-->
+<script src="/static/js/jquery/jQuery-3.6.0.min.js"></script>
+<script src="/static/js/echarts-all.js"></script>
+<script src="/static/js/base.js"></script>
+<script src="/static/js/index.js"></script>
+<!-- 百度地图api -->
+
+<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5ieMMexWmzB9jivTq6oCRX9j&callback"></script>-->
+<script src="/static/js/map.js"></script>
+<script>
+    function showImageAndText(buttonNumber) {
+        var imageAndTextContainer = document.getElementById("imageAndTextContainer");
+        var image = "";
+        var text = "";
+
+        switch (buttonNumber) {
+            case 1:
+                image = "/static/img/node.png";
+                text = "无线节点地震仪";
+                break;
+            case 2:
+                image = "/static/img/power.png";
+                text = "无线节点地震仪";
+                break;
+            case 3:
+                image = "/static/img/net.png";
+                text = "无线节点地震仪";
+                break;
+            case 4:
+                image = "/static/img/node2.png";
+                text = "无线节点地震仪";
+                break;
+            default:
+                image = "";
+                text = "";
+        }
+
+        imageAndTextContainer.innerHTML = `
+        <div class="image-text-container">
+            <img src="${image}" alt="图片">
+            <p>${text}</p>
+        </div>
+    `;
+    }
+
+    function hideImageAndText() {
+        var imageAndTextContainer = document.getElementById("imageAndTextContainer");
+        imageAndTextContainer.innerHTML = "";
+    }
+
+
+</script>
+
+
+</body>
+</html>
